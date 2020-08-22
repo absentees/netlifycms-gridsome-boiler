@@ -1,0 +1,49 @@
+backend:
+    name: git-gateway
+    branch: master # Branch to update (optional; defaults to master)    
+media_folder: "static/images/uploads" # Media files will be stored in the repo under static/images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+collections:
+    - name: "collectionObject" # Used in routes, e.g., /admin/collections/blog
+      identifier_field: name
+      label: "collectionObject" # Used in the UI
+      folder: "_content/collectionObject" # The path to the folder where the documents are stored
+      create: true # Allow users to create new documents in this collection
+      # slug: "{{name}}" # Filename template, e.g., YYYY-MM-DD-title.md
+      media_folder: '/static/images/uploads'
+      public_folder: '../../static/images/uploads'
+      fields: # The fields for each document, usually in front matter
+          - {
+                label: "Layout",
+                name: "layout",
+                widget: "hidden",
+                default: "blog",
+            }
+          - { label: "Name", name: "name", widget: "string" }
+          - label: "Image(s)"
+            name: "images"
+            widget: "list"
+            collapsed: false
+            fields:
+              - { label: "Alt text", name: altText, widget: string, required: false }
+              - { label: "Image", name: image, widget: image }
+          - { label: "Description", name: "body", widget: "markdown" }
+    - name: "pages"
+      label: "Pages"
+      files:
+          - label: "About Page"
+            name: "about"
+            file: "_content/pages/about.yml"
+            fields:
+                - { label: Title, name: title, widget: string }
+                - {
+                      label: "Short description",
+                      name: "shortdesc",
+                      widget: string,
+                  }
+                - { label: Description, name: description, widget: markdown }
+                - {
+                      label: "Featured Image",
+                      name: "thumbnail",
+                      widget: "image",
+                  }
